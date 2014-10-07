@@ -7,8 +7,7 @@
 #' @examples
 #' show_plot_chars()
 
-
-heat_misc = function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
+heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
                      col_clust = TRUE, rang = c(-3, 3), axis_scale = 1,
                      show_grid = F, grid_lty = 3, row_names = T,
                      col_names = T, mar_padding = c(3, 1, -4, 0),
