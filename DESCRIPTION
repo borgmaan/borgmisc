@@ -1,0 +1,11 @@
+Package: borgmisc
+Title: Andrew Borgman's misc package
+Version: 0.1
+Authors@R: "Andrew Borgman <ndrwsbrgmn@gmail.com>"
+Description: What the package does (paragraph)
+Depends: R (>= 3.1.0)
+License: What license is it under?
+LazyData: true
+Imports:
+    fastcluster,
+    RColorBrewer
