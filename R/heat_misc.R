@@ -214,8 +214,6 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
           axes = F, xlab = '', ylab = '', col = cfunc(length(breakers)-1),
           breaks=breakers, add = T)
 
-    abline(h=(image_y_max - np + 0.5), lwd=2)
-
     axis(side = 1, labels = if(col_names) colnames(tp) else FALSE,
          at = if(col_names) 1:ncol(tp) else FALSE, las=2, cex.axis = axis_scale,
          font=3, tck=0, mgp=c(3, 0.3, 0))
@@ -227,6 +225,7 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
     box(lwd=2)
 
     if (show_grid) grid(ncol(tp), nrow(tp), col = "slategrey", lty = grid_lty)
+    abline(h=(image_y_max - np + 0.5), lwd=2)
     par(mar = def)
     return(pheno_colors)
   } else {
