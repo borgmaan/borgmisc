@@ -26,6 +26,7 @@
 #'    colors for \code{pheno_list}
 #' @param leg A logical vector indicating which of the \code{pheno_list}
 #'    annotations should have a legend included.
+#' @param cfunc A \code{colorRampPalette} to color the heatmap with.
 #' @export
 #' @examples
 #' # a matrix
@@ -47,7 +48,7 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
                        col_clust = TRUE, rang = c(-3, 3), axis_scale = 1,
                        show_grid = F, grid_lty = 3, row_names = T,
                        col_names = T, mar_padding = c(3, 1, -4, 0),
-                       pals = NULL, leg = NULL, ...) {
+                       pals = NULL, leg = NULL, cfunc = NULL, ...) {
 
 
   # par settings...
@@ -84,7 +85,10 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
   tp = tp[row_order, col_order]
 
   # color stuff...
-  cfunc = colorRampPalette(c("blue", "white", "red"))
+  if (is.null(cfunc)) {
+    cfunc = colorRampPalette(c("blue", "white", "red"))
+  }
+
   breakers = seq(from = rang[1], to = rang[2], by = 0.1)
 
   # floor anything outside of our range

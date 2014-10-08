@@ -6,7 +6,7 @@
 heat_misc(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
   col_clust = TRUE, rang = c(-3, 3), axis_scale = 1, show_grid = F,
   grid_lty = 3, row_names = T, col_names = T, mar_padding = c(3, 1, -4,
-  0), pals = NULL, leg = NULL, ...)
+  0), pals = NULL, leg = NULL, cfunc = NULL, ...)
 }
 \arguments{
 \item{mat}{A matrix of values to plot in a heatmap.}
@@ -43,6 +43,8 @@ colors for \code{pheno_list}}
 
 \item{leg}{A logical vector indicating which of the \code{pheno_list}
 annotations should have a legend included.}
+
+\item{cfunc}{A \code{colorRampPalette} to color the heatmap with.}
 }
 \description{
 \code{heat_misc} Produces a very clean looking heatmap and allows for lots
