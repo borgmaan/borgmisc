@@ -10,4 +10,5 @@ License: What license is it under?
 LazyData: true
 Imports:
     fastcluster,
+    grid,
     RColorBrewer

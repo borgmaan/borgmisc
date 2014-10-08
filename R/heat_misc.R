@@ -1,17 +1,53 @@
 #' Yet another heatmap function
 #'
-#' Produces a very clean looking heatmap and allows for lots of customization
+#' \code{heat_misc} Produces a very clean looking heatmap and allows for lots
+#' of customization. Born out of my frustration with bloated heatmap functions
+#' like \code{NMF::aheatmap} and \code{gplots::heatmap.2} that make the creation
+#' of nice looking heatmaps possible, but do now allow for much customization.
 #'
-#'
+#' @param mat A matrix of values to plot in a heatmap.
+#' @param pheno_list A named list of annotation attributes to add as annotation
+#'    tracks. Similar to \code{gplots::heatmap.2} \code{colSideColors}.
+#' @param z_score Should the rows of the matrix should be z-scored?
+#' @param row_clust Sould the rows of the matrix be clustered?
+#' @param col_clust Sould the columns of the matrix be clustered?
+#' @param rang The maximum and minimum values to be plotted. Values exceeding
+#'    this range will be thresholded to the min/max values provided.
+#' @param axis_scale Value to pass to \code{cex.axis} to change the size of the
+#'    axis text
+#' @param show_grid Should the heatmap cells be outlined with a grid?
+#' @param grid_lty Integer to select base graphics line type
+#'    for \code{show_grid}
+#' @param row_names Should the row names of the matrix be used as labels?
+#' @param col_names Should the column names of the matrix be used as labels?
+#' @param mar_padding Values to alter default \code{par()$mar} values.
+#'    \code{c(bottom, left, top, right)}
+#' @param pals A vector of valid \pkg{RColorBrewer} pallete names to use as
+#'    colors for \code{pheno_list}
+#' @param leg A logical vector indicating which of the \code{pheno_list}
+#'    annotations should have a legend included.
 #' @export
 #' @examples
-#' show_plot_chars()
+#' # a matrix
+#' test = matrix(rnorm(100), ncol = 10)
+#' colnames(test) = rownames(test) = letters[1:10]
+#'
+#' # basic usage
+#' heat_misc(test)
+#' heat_misc(test, z_score = FALSE)
+#' heat_misc(test, row_clust = FALSE)
+#'
+#' # adding annotation
+#' pl = list('pheno' = rep(c('a', 'b', 'c'), length.out = 10))
+#' heat_misc(test, pheno_list = pl)
+#' heat_misc(test, pheno_list = pl, leg = TRUE)
+#' heat_misc(test, pheno_list = pl, leg = TRUE, show_grid = TRUE)
 
 heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
-                     col_clust = TRUE, rang = c(-3, 3), axis_scale = 1,
-                     show_grid = F, grid_lty = 3, row_names = T,
-                     col_names = T, mar_padding = c(3, 1, -4, 0),
-                     pals = NULL, leg = NULL, ...) {
+                       col_clust = TRUE, rang = c(-3, 3), axis_scale = 1,
+                       show_grid = F, grid_lty = 3, row_names = T,
+                       col_names = T, mar_padding = c(3, 1, -4, 0),
+                       pals = NULL, leg = NULL, ...) {
 
 
   # par settings...
@@ -123,10 +159,12 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
       pheno_levs = unique(pheno_list[[z]])
       pal_len = my_pals[pals[z], 'maxcolors']
       if (length(pheno_levs) > pal_len) {
-        pfunc = colorRampPalette(brewer.pal(n = pal_len, name = pals[z]))
+        pfunc = colorRampPalette(RColorBrewer::brewer.pal(n = pal_len,
+                                                          name = pals[z]))
         my_cols = c(my_cols, pfunc(length(pheno_levs)))
       } else {
-        my_cols = c(my_cols, brewer.pal(n = length(pheno_levs), name = pals[z]))
+        my_cols = c(my_cols, RColorBrewer::brewer.pal(n = length(pheno_levs),
+                                                      name = pals[z]))
       }
     }
 
@@ -223,5 +261,4 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
 
   par(mar = def)
 }
-
 
