@@ -218,9 +218,9 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
           breaks=breakers, add = T)
 
     # NA colors
-    na_mat = ifelse(is.na(tp), 1, NA)
-    image(1:ncol(tp), 1:nrow(tp), t(na_mat), axes = FALSE,
-          xlab = "", ylab = "", col = na_col, add = T)
+#     na_mat = ifelse(is.na(tp), 1, NA)
+#     image(1:ncol(tp), 1:nrow(tp), t(na_mat), axes = FALSE,
+#           xlab = "", ylab = "", col = na_col, add = T)
 
     axis(side = 1, labels = if(col_names) colnames(tp) else FALSE,
          at = if(col_names) 1:ncol(tp) else FALSE, las=2, cex.axis = axis_scale,
