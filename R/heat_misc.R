@@ -27,6 +27,7 @@
 #' @param leg A logical vector indicating which of the \code{pheno_list}
 #'    annotations should have a legend included.
 #' @param cfunc A \code{colorRampPalette} to color the heatmap with.
+#' @param na_col Color to assign to \code{NA} values.
 #' @export
 #' @examples
 #' # a matrix
@@ -48,7 +49,8 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
                        col_clust = TRUE, rang = c(-3, 3), axis_scale = 1,
                        show_grid = F, grid_lty = 3, row_names = T,
                        col_names = T, mar_padding = c(3, 1, -4, 0),
-                       pals = NULL, leg = NULL, cfunc = NULL, ...) {
+                       pals = NULL, leg = NULL, cfunc = NULL, na_col = 'grey60',
+                       ...) {
 
 
   # par settings...
@@ -158,7 +160,7 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
     }
 
     # use labels to assign colors
-    my_cols = c('grey90')
+    my_cols = c(na_col)
     for (z in seq(pheno_list)) {
       pheno_levs = unique(pheno_list[[z]])
       pal_len = my_pals[pals[z], 'maxcolors']
@@ -194,7 +196,8 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
       par(fig=c(0, 1, .92, 1))
       par(mar = rep(.1, 4))
 
-      plot(x = 1:length(leg_cols), y = rep(0, 1, length.out = length(leg_cols)), type = 'n', axes = F, xlab = '', ylab = '')
+      plot(x = 1:length(leg_cols), y = rep(0, 1, length.out = length(leg_cols)),
+           type = 'n', axes = F, xlab = '', ylab = '')
       legend('center', legend = names(leg_cols), col = leg_cols, pch = 15,
              horiz=TRUE, bty = 'n')
 
@@ -214,13 +217,18 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
           axes = F, xlab = '', ylab = '', col = cfunc(length(breakers)-1),
           breaks=breakers, add = T)
 
+    # NA colors
+    na_mat = ifelse(is.na(tp), 1, NA)
+    image(1:ncol(tp), 1:nrow(tp), t(na_mat), axes = FALSE,
+          xlab = "", ylab = "", col = na_col, add = T)
+
     axis(side = 1, labels = if(col_names) colnames(tp) else FALSE,
          at = if(col_names) 1:ncol(tp) else FALSE, las=2, cex.axis = axis_scale,
          font=3, tck=0, mgp=c(3, 0.3, 0))
 
     axis(side = 2, labels = if(row_names) rownames(tp) else FALSE,
-         at = if(row_names) 1:image_y_max else FALSE, las=2, cex.axis = axis_scale,
-         font=3, tck=0, mgp=c(3, 0.3, 0))
+         at = if(row_names) 1:image_y_max else FALSE, las=2,
+         cex.axis = axis_scale, font=3, tck=0, mgp=c(3, 0.3, 0))
 
     box(lwd=2)
 
@@ -230,11 +238,16 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
     return(pheno_colors)
   } else {
 
-    # just draw our normal heatmap if we don't have any phenos...
+    ## just draw our normal heatmap if we don't have any phenos...
 
     image(x = 1:ncol(mat), y = 1:nrow(mat), z = t(tp),
           axes = F, xlab = '', ylab = '', col = cfunc(length(breakers)-1),
           breaks=breakers, ...)
+
+    # NA colors
+    na_mat = ifelse(is.na(tp), 1, NA)
+    image(1:ncol(mat), 1:nrow(mat), t(na_mat), axes = FALSE,
+          xlab = "", ylab = "", col = na_col, add = T)
 
     axis(side = 1,labels = if(col_names) colnames(tp) else FALSE,
          at = if(col_names) 1:ncol(tp) else FALSE,
