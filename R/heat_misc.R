@@ -169,8 +169,8 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
                                                           name = pals[z]))
         my_cols = c(my_cols, pfunc(length(pheno_levs)))
       } else {
-        my_cols = c(my_cols, RColorBrewer::brewer.pal(n = length(pheno_levs),
-                                                      name = pals[z]))
+        my_cols = c(my_cols, RColorBrewer::brewer.pal(
+          n = max(length(pheno_levs), 3), name = pals[z])[1:length(pheno_levs)])
       }
     }
 
