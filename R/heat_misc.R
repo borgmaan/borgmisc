@@ -53,6 +53,12 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
                        ...) {
 
 
+  # don't screw up plotting outside the function
+  dev.hold()
+  on.exit(dev.flush())
+  op = par(no.readonly = TRUE)
+  on.exit(par(op), add = TRUE)
+
   # par settings...
   def = c(5.1, 4.1, 4.1, 2.1)
   par(mar = def + mar_padding)
