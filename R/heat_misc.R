@@ -235,7 +235,7 @@ heat_misc  <- function(mat, pheno_list = NULL, z_score = TRUE, row_clust = TRUE,
     if (show_grid) grid(ncol(tp), nrow(tp), col = "slategrey", lty = grid_lty)
     abline(h=(image_y_max - np + 0.5), lwd=2)
     par(mar = def)
-    return(pheno_colors)
+    invisible(pheno_colors)
   } else {
 
     ## just draw our normal heatmap if we don't have any phenos...
